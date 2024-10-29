@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrybeHotel.Dto;
 using TrybeHotel.Models;
@@ -27,6 +29,8 @@ namespace TrybeHotel.Controllers
 
         // 7. Desenvolva o endpoint POST /room
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Policy = "Admin")]
         public IActionResult PostRoom([FromBody] Room room){
             return Created("", _repository.AddRoom(room));
         }
