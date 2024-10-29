@@ -17,7 +17,6 @@ namespace TrybeHotel.Services
                 Secret = "4d82a63bbdc67c1e4784ed6587f3730c",
                 ExpiresDay = 1
            };
-
         }
         public string Generate(UserDto user)
         {
