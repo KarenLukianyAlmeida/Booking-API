@@ -4,6 +4,7 @@ using TrybeHotel.Repository;
 using TrybeHotel.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TrybeHotel.Exceptions;
 
 namespace TrybeHotel.Controllers
 {
@@ -26,7 +27,17 @@ namespace TrybeHotel.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] UserDtoInsert user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Created("", _repository.Add(user));
+            }
+            catch (ConflictException)
+            {
+                return Conflict(new { message = "User email already exists" });
+            }
+
+            
+
         }
     }
 }
