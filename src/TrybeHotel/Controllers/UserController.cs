@@ -35,9 +35,6 @@ namespace TrybeHotel.Controllers
             {
                 return Conflict(new { message = "User email already exists" });
             }
-
-            
-
         }
     }
 }
