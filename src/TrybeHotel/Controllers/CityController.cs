@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TrybeHotel.Dto;
 using TrybeHotel.Models;
 using TrybeHotel.Repository;
 
@@ -14,14 +15,37 @@ namespace TrybeHotel.Controllers
             _repository = repository;
         }
         
+        // 2. Desenvolva o endpoint GET /city
         [HttpGet]
         public IActionResult GetCities(){
-            throw new NotImplementedException();
+            try
+            {
+                var cities = _repository.GetCities().ToList();
+                
+                if (cities == null || cities.Count() == 0)
+                {
+                    return Ok(new List<CityDto>());
+                }
+
+                return Ok(cities);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message.ToString() });
+            }
         }
 
+        // 3. Desenvolva o endpoint POST /city
         [HttpPost]
         public IActionResult PostCity([FromBody] City city){
-            throw new NotImplementedException();
+            try
+            {
+                return Created("", _repository.AddCity(city));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message.ToString() });
+            }
         }
     }
 }
