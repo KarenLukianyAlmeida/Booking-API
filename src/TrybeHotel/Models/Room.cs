@@ -11,4 +11,5 @@ public class Room {
     [ForeignKey("HotelId")]
     public int HotelId { get; set; }
     public virtual Hotel? Hotel { get; set; }
+    public virtual ICollection<Booking> Bookings { get; set; }
 }
