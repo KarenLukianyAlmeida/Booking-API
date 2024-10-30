@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using TrybeHotel.Dto;
+using System.Runtime.Serialization;
+using TrybeHotel.Exceptions;
 
 namespace TrybeHotel.Controllers
 {
@@ -20,9 +22,22 @@ namespace TrybeHotel.Controllers
             _repository = repository;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Policy = "Client")]
         [HttpPost]
         public IActionResult Add([FromBody] BookingDtoInsert bookingInsert){
-            throw new NotImplementedException();
+            try
+            {
+                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                BookingResponse newBooking = _repository.Add(bookingInsert, userEmail);
+                
+                return Created("", newBooking);
+            }
+            catch (CapacityExceededException)
+            {
+                return BadRequest(new { message = "Guest quantity over room capacity" });
+            }
         }
 
 
