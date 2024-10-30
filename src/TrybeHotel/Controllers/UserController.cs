@@ -5,6 +5,7 @@ using TrybeHotel.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TrybeHotel.Exceptions;
+using System.Security.Claims;
 
 namespace TrybeHotel.Controllers
 {
@@ -23,7 +24,15 @@ namespace TrybeHotel.Controllers
         [Authorize(Policy = "Admin")]
         [HttpGet]
         public IActionResult GetUsers(){
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<UserDto> users = _repository.GetUsers();
+                return Ok(users);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
         }
     
         [HttpPost]

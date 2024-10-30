@@ -2,6 +2,7 @@ using TrybeHotel.Models;
 using TrybeHotel.Dto;
 using System.Runtime.Serialization;
 using TrybeHotel.Exceptions;
+using System.Security.Claims;
 
 namespace TrybeHotel.Repository
 {
@@ -69,7 +70,12 @@ namespace TrybeHotel.Repository
 
         public IEnumerable<UserDto> GetUsers()
         {
-           throw new NotImplementedException();
+           return _context.Users.Select(u => new UserDto{
+                UserId = u.UserId,
+                Name = u.Name,
+                Email = u.Email,
+                UserType = u.UserType
+            }).ToList();
         }
 
     }
