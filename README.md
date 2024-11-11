@@ -10,4 +10,4 @@ This API manages hotel bookings. It is responsible for handling customer registr
 
 ## Features
 
-I developed the features in ```/trybehotel``` file
+I developed the features in ```src/trybehotel``` file
